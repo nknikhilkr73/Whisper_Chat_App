@@ -110,12 +110,13 @@ nav, .container, .send, .heading, img {
 }
 .message{
     background-color: rgb(251, 251, 251);
-    width: 25%;
+    width: 35%;
     padding: 5px 10px;
     margin:17px 20px;
     border: 2px solid black;
     border-radius: 5px;
     word-break: break-word;
+    white-space: normal;
     
 }
 
@@ -166,7 +167,7 @@ nav, .container, .send, .heading, img {
 }
 @media (max-width:600px){
     .message{
-        width: 120px;
+        width: 160px;
     }
     .container{  
         width: 80vw; 
