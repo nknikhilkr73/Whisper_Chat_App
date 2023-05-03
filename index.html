@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whisper Chat 
+    </title>
+    <link rel="icon" type="image/png" href="\images\abc.png">
+    <link rel="stylesheet" href="\css\styles.css">
+  
+
+</head>
+<body>
+    <div class="containerr">
+
+        <div class="bubbles">
+            <span style="--i:11;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:24;"></span>
+            <span style="--i:10;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:23;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:20;"></span>
+            <span style="--i:22;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:21;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:26;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:28;"></span>
+            <span style="--i:11;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:24;"></span>
+            <span style="--i:10;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:23;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:20;"></span>
+            <span style="--i:22;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:21;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:26;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:28;"></span>
+            
+        </div>
+
+        <div class="main">
+    <nav><img class="logo" src="images/abc.png" alt="Chat logo"></nav>
+    <div class="heading">Welcome to Whisper Chat!..</div>
+    <div class="box">
+        <span></span>
+<div class="container">
+
+</div>
+</div>
+<div class="send"><form action="#" id="send-container">
+    <input type="text" name="messageInp" id="messageInp" autocomplete="off" placeholder="Message Here" >
+    <button class="btn" type="submit">Send </button>
+    </form>
+    </div>
+</div>
+
+</div>
+   
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+     const socket = io();
+        const form = document.getElementById('send-container');
+        const messageInput=document.getElementById('messageInp');
+        const messageContainer=document.querySelector('.container');
+        
+        var audio=new Audio("aa.wav")
+        
+        
+        const append=(message, position)=>{
+        const messageElement=document.createElement('div')
+        messageElement.innerText=message;
+        messageElement.classList.add('message');
+        messageElement.classList.add(position);
+        messageContainer.append(messageElement)
+        if(position=='left'){
+            audio.play();
+        }
+        messageContainer.scrollTop = messageContainer.scrollHeight; // scroll to bottom
+
+        }
+        
+        form.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            const message=messageInput.value;
+            append(`You\n${message}`, `right`)
+            socket.emit('send', message)
+            messageInput.value=''
+        })
+        
+        const name=prompt("Enter the name")
+        socket.emit('new-user-joined', name)
+        
+        socket.on('user-joined', name=>{
+            append(`${name} joined the chat`,`right`)
+        })
+        socket.on('receive', data=>{
+            append(`${data.name}\n${data.message} `,`left`)
+        })
+        
+        socket.on('left', name=>{
+            append(`${name} left the chat `,`left`)
+        })
+        </script>
+
+</body>
+</html>
